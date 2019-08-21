@@ -1,7 +1,12 @@
 import pandas as pd 
 
-__all__ = ['scorer', 'score_hexaco']
-__author__ = ["Shawn Rhoads","Katherine O'Connell","Kathryn Berluti"]
+__all__ = ['scorer',
+           'score_hexaco',
+           'score_rel_mobility']
+
+__author__ = ["Shawn Rhoads",
+              "Katherine O'Connell",
+              "Kathryn Berluti"]
 
 class lsan_survey(object):
 
