@@ -1,7 +1,15 @@
 import pandas as pd 
-import numpy as np 
+
+__all__ = ['scorer', 'score_hexaco']
+__author__ = ["Shawn Rhoads","Katherine O'Connell","Kathryn Berluti"]
 
 class lsan_survey(object):
+
+    """ 
+    The lsan_survey class allows users to easily score a variety of different
+    questionnaires used in the Georgetown Laboratory of Social and Affective
+    Neuroscience.
+    """
 
     def __init__(self):
         self.data = pd.DataFrame()
@@ -22,7 +30,7 @@ class lsan_survey(object):
         scale_name = 'hexaco'
         self.hexaco_scored = pd.DataFrame()
         
-        # check if hexaco total items (columns) = 60
+        # check number of HEXACO total items (columns)
         if len(self.data.filter(regex=str(scale_name+"_")).columns) != 60:
             raise ValueError("Number of question items does not match the number of items specified!")
         
@@ -30,12 +38,12 @@ class lsan_survey(object):
         hexaco = self.data.filter(regex=str(scale_name+"_"))      
         
         # reverse score items in scale
-        max_scale = 5 # scale = 1:5
+        max_scale = 5
         min_scale = 1
         reversed_items = [30,12,60,42,24,48,53,35,41,59,28,52,10,46,9,15,57,21,26,32,14,20,44,56,1,31,49,19,55]
         
         for i in reversed_items:
-            hexaco.loc[:,'hexaco_' + str(i)] = (max_scale + min_scale) - hexaco['hexaco_' + str(i)] 
+            hexaco.loc[:,scale_name + str(i)] = (max_scale + min_scale) - hexaco[scale_name + str(i)] 
         
         # specify subscales
         subscales = {}
@@ -49,3 +57,31 @@ class lsan_survey(object):
         # score each subscale and store in new dataframe
         for subscale_name, subscale_items in subscales.items():
             self.hexaco_scored[subscale_name] = self.scorer(hexaco, scale_name, subscale_name, subscale_items)
+
+    def score_rel_mobility(self):
+        # initiate variables
+        scale_name = 'relational_mobility'
+        self.rel_mobility_scored = pd.DataFrame()
+        
+        # check number of Relational Mobility total items (columns)
+        if len(self.data.filter(regex=str(scale_name+"_")).columns) != 12:
+            raise ValueError("Number of question items does not match the number of items specified!")
+        
+        # initiate df with Relational Mobility items only
+        rel_mobility = self.data.filter(regex=str(scale_name+"_"))      
+        
+        # reverse score items in scale
+        max_scale = 7
+        min_scale = 1
+        reversed_items = [4,5,7,9,11,12]
+
+        for i in reversed_items:
+            rel_mobility.loc[:,scale_name + str(i)] = (max_scale + min_scale) - rel_mobility[scale_name + str(i)] 
+        
+        # specify subscales
+        subscales = {}
+        subscales['rel_mobility'] = [n for n in range(1,13)]
+        
+        # score each subscale and store in new dataframe
+        for subscale_name, subscale_items in subscales.items():
+            self.rel_mobility_scored[subscale_name] = self.scorer(rel_mobility, scale_name, subscale_name, subscale_items)
