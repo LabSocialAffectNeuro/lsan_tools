@@ -76,7 +76,7 @@ class lsan_survey(object):
         rel_mobility = self.data.filter(regex=str(scale_name+"_"))      
         
         # reverse score items in scale
-        max_scale = 7
+        max_scale = 6
         min_scale = 1
         reversed_items = [4,5,7,9,11,12]
 

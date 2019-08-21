@@ -4,7 +4,6 @@ Python toolbox with general-purpose functions for behavioral and neuroimaging re
 
 ## Dependencies
 - pandas
-- numpy
 
 ## lsan_survey 
 Python class used to score self-reported surveys
