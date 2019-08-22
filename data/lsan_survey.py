@@ -118,9 +118,9 @@ class lsan_survey(object):
         for subscale_name, subscale_items in subscales.items():
             self.scored_data[scale_name].loc[:,str(scale_name+"_"+subscale_name)] = self.scorer(isel, scale_name, subscale_name, subscale_items, calc_mean=False)
 
-    def append_data(self):
+    def join_data(self):
         # loop through all scored data
         all_data = [scored_scale for scored_scale in self.scored_data.values()]
-        appended_data = all_data[0].join(all_data[1:])
+        joined_data = all_data[0].join(all_data[1:])
 
-        return appended_data
+        return joined_data
