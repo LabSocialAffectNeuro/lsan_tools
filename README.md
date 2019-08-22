@@ -10,7 +10,7 @@ Python class used to score self-report surveys
 
 ### Example usage
 ``` 
-from lsan_tools.data import lsan_survey
+from lsan_tools.lsan_survey import lsan_survey
 ```
 ```
 df = lsan_survey() # initiate lsan_survey class
