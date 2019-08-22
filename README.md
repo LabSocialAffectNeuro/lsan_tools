@@ -19,6 +19,6 @@ df.score_hexaco() # score subscales in HEXACO Personality Inventory (60-item)
 df.score_isel() # score subscales in the Interpersonal Support Evaluation List (40-item)
 ```
 ```
-# joined all scored data and store in new DataFrame
+# join all scored data and store in new DataFrame
 new_df = df.append_data()
 ```
