@@ -1,7 +1,14 @@
 import pandas as pd 
 pd.options.mode.chained_assignment = None
 
-__all__ = ['scorer', 'score_hexaco']
+__all__ = ['scorer',
+           'check_total_items',
+           'join_data',
+           'score_hexaco',
+           'score_rel_mobility',
+           'score_isel',
+           'score_dospert'
+           ]
 __author__ = ["Shawn Rhoads","Katherine O'Connell","Kathryn Berluti"]
 
 class lsan_survey(object):
