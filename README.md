@@ -2,8 +2,13 @@
 
 Python toolbox with general-purpose functions for behavioral and neuroimaging research
 
+## Installation
+```
+pip install git+https://github.com/LabSocialAffectNeuro/lsan_tools
+```
+
 ## Dependencies
-- pandas
+- pandas>=0.24
 
 ## lsan_survey 
 Python class used to score self-report surveys
