@@ -52,9 +52,8 @@ class lsan_survey(object):
         else:
             raise ValueError("User needs to score data before trying to join!")               
 
-    def score_hexaco(self):
+    def score_hexaco(self, scale_name = 'hexaco'):
         # initiate variables
-        scale_name = 'hexaco'
         self.scored_data[scale_name] = pd.DataFrame()
         
         # check number of HEXACO total items (columns)
@@ -84,9 +83,8 @@ class lsan_survey(object):
         for subscale_name, subscale_items in subscales.items():
             self.scored_data[scale_name].loc[:,str(scale_name+"_"+subscale_name)] = self.scorer(hexaco, scale_name, subscale_name, subscale_items)
 
-    def score_rel_mobility(self):
+    def score_rel_mobility(self, scale_name = 'relational_mobility'):
         # initiate variables
-        scale_name = 'relational_mobility'
         self.scored_data[scale_name] = pd.DataFrame()
         
         # check number of Relational Mobility total items (columns)
@@ -111,9 +109,8 @@ class lsan_survey(object):
         for subscale_name, subscale_items in subscales.items():
             self.scored_data[scale_name].loc[:,str(scale_name+"_"+subscale_name)] = self.scorer(rel_mobility, scale_name, subscale_name, subscale_items)
 
-    def score_isel(self):
+    def score_isel(self, scale_name = 'isel'):
         # initiate variables
-        scale_name = 'isel'
         self.scored_data[scale_name] = pd.DataFrame()
 
         # check number of Interpersonal Support Evaluation List (40-item) (columns)
@@ -141,9 +138,8 @@ class lsan_survey(object):
         for subscale_name, subscale_items in subscales.items():
             self.scored_data[scale_name].loc[:,str(scale_name+"_"+subscale_name)] = self.scorer(isel, scale_name, subscale_name, subscale_items, calc_mean=False)
 
-    def score_dospert(self):
+    def score_dospert(self, scale_name = 'dospert'):
         # initiate variables
-        scale_name = 'dospert'
         self.scored_data[scale_name] = pd.DataFrame()
 
         # check number of dospert total items (columns) = 60
