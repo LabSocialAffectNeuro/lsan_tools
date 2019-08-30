@@ -1,8 +1,10 @@
 import pandas as pd 
 pd.options.mode.chained_assignment = None
 
-__all__ = ['scorer',
+__all__ = ['select_data',
+           'scorer',
            'check_total_items',
+           'retain_items',
            'join_data',
            'score_hexaco',
            'score_rel_mobility',
@@ -14,14 +16,38 @@ __author__ = ["Shawn Rhoads","Katherine O'Connell","Kathryn Berluti"]
 class lsan_survey(object):
 
     """ 
-    The lsan_survey class allows users to easily score a variety of different
-    questionnaires used in the Georgetown Laboratory of Social and Affective
-    Neuroscience.
+    The lsan_survey class allows users to easily perform a variety of different
+    functions on questionnaires used in the Georgetown Laboratory of Social and 
+    Affective Neuroscience.
     """
 
     def __init__(self,csv_file,index_col_name):
         self.data = pd.read_csv(csv_file, index_col=index_col_name)
+        self.original_data = True
+        self.index_col_name = index_col_name
         self.scored_data = {}
+
+    def select_data(self, sub_ids, rewrite_to_self=False, save=True, filename="selected_data"):
+        if type(sub_ids) != list:
+            if type(sub_ids) != str:
+                raise ValueError("`sub_ids` is not a list or string")
+            else:
+                print("\n`sub_ids` is a string, reading "+sub_ids+" from file\n")
+                with open(sub_ids, 'r') as f:
+                    selected_sub_ids = [int(x) for x in f.readlines()]
+        else:
+            selected_sub_ids = sub_ids 
+
+        selected_data = self.data.loc[selected_sub_ids, :]
+
+        if rewrite_to_self: # if we want to rewrite existing data to score selected data
+            self.data = selected_data
+            self.original_data = False
+        else:
+            if save:
+                selected_data.to_csv(filename+".csv")
+            else:
+                return selected_data
 
     def scorer(self, df, scale_name, subscale_names, subscale_items, calc_mean=True):
         ''' loads data from indicated scale, sums all subscale items, and takes mean (unless specified otherwise) '''
@@ -37,12 +63,12 @@ class lsan_survey(object):
     
     def check_total_items(self, scale_name, scale_total_items):
         if len(self.data.filter(regex=str(scale_name+"_")).columns) != scale_total_items:
-            raise ValueError("Number of question items does not match the number of items specified!")
+            raise ValueError("Number of question items does not match the number of items specified! Please check your data and try again.")
 
-    def retain_items(self,list):
+    def retain_items(self, list):
         self.scored_data['other'] = self.data[list]
 
-    def join_data(self, filename="scored_data", save=True):
+    def join_data(self, save=True, filename="scored_data"):
         if self.scored_data != {}:
             # loop through all scored data
             all_data = [scored_scale for scored_scale in self.scored_data.values()]
@@ -50,8 +76,8 @@ class lsan_survey(object):
             
             if save:
                 joined_data.to_csv(filename+".csv") #save to .csv unless otherwise specified
-
-            return joined_data
+            else:
+                return joined_data
         else:
             raise ValueError("User needs to score data before trying to join!")               
 
