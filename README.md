@@ -13,6 +13,13 @@ pip install git+https://github.com/LabSocialAffectNeuro/lsan_tools
 ## lsan_survey 
 Python class used to score self-report surveys
 
+**Current scales included:**
+- HEXACO Personality Inventory (60-item)
+- Relational Mobility Scale (12-item)
+- Interpersonal Support Evaluation List (40-item)
+- Domain-Specific Risk-Taking (DOSPERT) Scale (60-item) 
+
+
 ### Example usage
 ``` 
 from lsan_tools.utils import lsan_survey
@@ -24,5 +31,5 @@ survey.score_isel() # score subscales in the Interpersonal Support Evaluation Li
 ```
 ```
 # join all scored data and store in new DataFrame, but don't save to csv
-new_survey = survey.join_data(save=False)
+new_survey = survey.join_data("scored_survey_output",save=False)
 ```

@@ -103,7 +103,7 @@ class lsan_survey(object):
         
         # specify subscales
         subscales = {}
-        subscales['rel_mobility'] = [n for n in range(1,13)]
+        subscales['relational_mobility'] = [n for n in range(1,13)]
         
         # score each subscale and store in new dataframe
         for subscale_name, subscale_items in subscales.items():
@@ -158,16 +158,16 @@ class lsan_survey(object):
 
         # specify subscales
         subscales = {}
-        subscales['risk taking ethical'] = [6, 9, 10, 16, 29, 30]
-        subscales['risk taking financial'] = [3, 4, 8, 12, 14, 18]
-        subscales['risk taking health/saftey'] = [5, 15, 17, 20, 23, 26]
-        subscales['risk taking recreational'] = [2, 11, 13, 19, 24, 25]
-        subscales['risk taking social'] = [1, 7, 21, 22, 27, 28]
-        subscales['risk perceptiong ethical'] = [36, 39, 40, 46, 59, 60]
-        subscales['risk perceptiong financial'] = [33, 34, 38, 42, 44, 48]
-        subscales['risk perceptiong health/saftey'] = [35, 45, 47, 50, 53, 56, ]
-        subscales['risk perceptiong recreational'] = [32, 41, 43, 49, 54, 55]
-        subscales['risk perceptiong social'] = [31, 37, 51, 52, 57, 58]
+        subscales['risk_taking_ethical'] = [6, 9, 10, 16, 29, 30]
+        subscales['risk_taking_financial'] = [3, 4, 8, 12, 14, 18]
+        subscales['risk_taking_health_safety'] = [5, 15, 17, 20, 23, 26]
+        subscales['risk_taking_recreational'] = [2, 11, 13, 19, 24, 25]
+        subscales['risk_taking_social'] = [1, 7, 21, 22, 27, 28]
+        subscales['risk_perception_ethical'] = [36, 39, 40, 46, 59, 60]
+        subscales['risk_perception_financial'] = [33, 34, 38, 42, 44, 48]
+        subscales['risk_perception_health_safety'] = [35, 45, 47, 50, 53, 56, ]
+        subscales['risk_perception_recreational'] = [32, 41, 43, 49, 54, 55]
+        subscales['risk_perception_social'] = [31, 37, 51, 52, 57, 58]
 
         # score each subscale and store in new dataframe
         for subscale_name, subscale_items in subscales.items():
