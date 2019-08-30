@@ -39,14 +39,14 @@ class lsan_survey(object):
         if len(self.data.filter(regex=str(scale_name+"_")).columns) != scale_total_items:
             raise ValueError("Number of question items does not match the number of items specified!")
 
-    def join_data(self,save=True):
-        if self.scored_data != {}
+    def join_data(self, filename="scored_data", save=True):
+        if self.scored_data != {}:
             # loop through all scored data
             all_data = [scored_scale for scored_scale in self.scored_data.values()]
             joined_data = all_data[0].join(all_data[1:])
             
             if save:
-                joined_data.to_csv("scored_data.csv") #save to .csv unless otherwise specified
+                joined_data.to_csv(filename+".csv") #save to .csv unless otherwise specified
 
             return joined_data
         else:
