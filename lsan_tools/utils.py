@@ -39,6 +39,9 @@ class lsan_survey(object):
         if len(self.data.filter(regex=str(scale_name+"_")).columns) != scale_total_items:
             raise ValueError("Number of question items does not match the number of items specified!")
 
+    def retain_items(self,list):
+        self.scored_data['other'] = self.data[list]
+
     def join_data(self, filename="scored_data", save=True):
         if self.scored_data != {}:
             # loop through all scored data
