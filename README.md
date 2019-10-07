@@ -20,7 +20,7 @@ Python class used to perform manipulations on self-report surveys (e.g., score q
 - Domain-Specific Risk-Taking (DOSPERT) Scale (60-item): `lsan_survey.score_dospert()`
 
 **Other functions:**
-- Select specific subject data from survey using sub_ids.txt file, rewrite survey.data in class, but do not save as comma-delimited file: `lsan_survey.select_data("sub_ids.txt", rewrite_to_self=True)`
+- Select specific subject data from survey using sub_ids.txt file, rewrite survey.data in class, but do not save as comma-separated file: `lsan_survey.select_data("sub_ids.txt", rewrite_to_self=True)`
 - Retain specific question items (e.g., demographics): `lsan_survey.retain_items(list)`
 - Join scored surveys and save as comma-delimited file: `lsan_survey.join_data()`
 
