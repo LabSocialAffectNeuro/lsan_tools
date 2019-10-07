@@ -3,9 +3,9 @@ import numpy as np
 
 def shuffle(df):
     """
-    Take a dataframe where the columns are variables and the 
+    Take a DataFrame where the columns are variables and the 
     subjects are the rows (row indices = subject IDs),
-    and randomly shuffles the row labels.
+    and randomly shuffles the subject labels.
     """
     
     df2 = df.copy()
