@@ -1,21 +1,32 @@
 import pandas as pandas
 import numpy as np
+from sklearn.metrics import pairwise_distances
+from sklearn.preprocessing import StandardScaler
 
 def shuffle(df):
     """
     Take a DataFrame where the columns are variables and the 
-    subjects are the rows (row indices = subject IDs),
-    and randomly shuffles the subject labels.
+    observations are the rows (e.g., row indices are subject IDs),
+    and randomly shuffles the row indices.
     """
     
-    df2 = df.copy()
-    df2['new_id'] = np.random.permutation(df2.index)
+    new_df = df.copy()
+    new_df['new_id'] = np.random.permutation(new_df.index)
 
     # get rid of added column
-    df2.index = (df2['new_id'])
+    new_df.index = (new_df['new_id'])
     
     # get rid of index name
-    df2.index.name = None
+    new_df.index.name = None
 
     # Now have subjects x variables DataFrame with subject IDs randomly shuffled.
-    return df2
+    return new_df
+
+
+def standardize(df, var_list):
+	""" 
+	Takes DateFrame and z-scores values within each of the columns
+	"""
+	scaler = StandardScaler()
+	return scaler.fit_transform(df[var_list])
+
