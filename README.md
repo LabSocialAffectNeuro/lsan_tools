@@ -53,7 +53,11 @@ survey.join_data(filename="scored_survey_output")
 Python class used to take BIDS-formatted events.tsv files in a base BIDS directory and convert them for first-level GLM analysis in AFNI and SPM (FSL pending).
 
 **Functions:**
-- `events_class.get_timing()`: Throws timing information for each subject into dictionary and writes to BIDS derivatives folder for first-level GLM analysis in AFNI or SPM (Default: AFNI)
+- `events_class.get_timing()`: Throws timing information for each subject into dictionary and writes event timing files to a BIDS derivatives folder for first-level GLM analysis in AFNI or SPM (Default: AFNI); Output contains a .txt file for each condition within a 'trial_type' column with N lines corresponding to N runs; each line is tab-separated and written with the heuristic ONSET_TIME:DURATION
+
+**Functions (in-development):**
+- `events_class.convert_secs_to_TRs()`: Converts event timing information from secs to TRs for Design Matrix generation (*in-development*)
+- `events_class.gen_DesignMat()`: Convolves specified events with specified HRF, adds nuissance regressors, and creates a Design Matrix for use in first-level GLM analysis (*in-development*)
 - `events.bunch_timing()`: Throws timing information for each subject into dictionary for first-level GLM analysis in nipype (*in-development*)
 
 ### Example usage
@@ -62,10 +66,10 @@ from lsan_tools.fmri.postprep import events_class
 ```
 ```
 base_dir = '/mnt/data/bids_dir'
-task_id = 'task_name_specified_in_bids'
+task_id = 'task_name_specified_in_bids' #e.g., f'/mnt/data/bids_dir/sub-XX/func/sub-XX_run-XX_task-{task_id}_events.tsv'
 events = events_class(base_dir, task_id)
 
-events.get_timing(trimTRby=10, software='AFNI', write=True) # gets all trial types under task_id, and writes text files for AFNI analysis to BIDS derivatives folder
+events.get_timing(trimTRby=10, software='AFNI', write=True) # gets all trial types under task_id *events.tsv file (assumes first two columns: 'onset' and 'duration'), trims the onset times by 10 secs, and writes .txt files for AFNI first-level analysis to a BIDS derivatives folder
 
 ```
 ## lsan_tools.math
