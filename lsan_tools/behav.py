@@ -10,7 +10,8 @@ __all__ = ['select_data',
            'score_rel_mobility',
            'score_isel',
            'score_dospert',
-           'score_stab'
+           'score_stab',
+           'score_iri'
            ]
 
 __author__ = ["Shawn Rhoads","Katherine O'Connell","Kathryn Berluti"]
@@ -232,3 +233,32 @@ class survey(object):
         # score each subscale and store in new dataframe
         for subscale_name, subscale_items in subscales.items():
             self.scored_data[scale_name].loc[:,str(scale_name+"_"+subscale_name)] = self.scorer(STAB, scale_name, subscale_name, subscale_items, calc_mean=False)
+
+	def score_iri(self, scale_name = 'iri'):
+        # initiate variables
+        self.scored_data[scale_name] = pd.DataFrame()
+
+        # check number of Interpersonal Reactivity Index items (28-item) (columns)
+        self.check_total_items(scale_name, 28)
+        
+        # initiate df with IRI items only
+        iri = self.data.filter(regex=str(scale_name+"_"))    
+        
+        # reverse score items in scale
+        max_scale = 4
+        min_scale = 0
+        reversed_items = [3, 4, 7, 12, 13, 14, 15, 18, 19]
+
+        for i in reversed_items:
+            iri.loc[:,scale_name+"_"+str(i)] = (max_scale + min_scale) - iri.loc[:,scale_name+"_"+str(i)] 
+
+        # specify subscales
+        subscales = {}
+        subscales['perspective_taking'] = [3, 8, 11, 15, 21, 25, 28]
+        subscales['fantasy'] = [1, 5, 7, 12, 16, 23, 26]
+        subscales['empathic_concern'] = [2, 4, 9, 14, 18, 20, 22]
+        subscales['personal_distress'] = [6, 10, 13, 17, 19, 24, 27]
+
+        # score each subscale and store in new dataframe
+        for subscale_name, subscale_items in subscales.items():
+            self.scored_data[scale_name].loc[:,str(scale_name+"_"+subscale_name)] = self.scorer(iri, scale_name, subscale_name, subscale_items, calc_mean=False)
