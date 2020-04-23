@@ -69,7 +69,12 @@ base_dir = '/mnt/data/bids_dir'
 task_id = 'task_name_specified_in_bids' #e.g., f'/mnt/data/bids_dir/sub-XX/func/sub-XX_run-XX_task-{task_id}_events.tsv'
 events = events_class(base_dir, task_id)
 
-events.get_timing(trimTRby=10, software='AFNI', write=True) # gets all trial types under task_id *events.tsv file (assumes first two columns: 'onset' and 'duration'), trims the onset times by 10 secs, and writes .txt files for AFNI first-level analysis to a BIDS derivatives folder
+# gets all trial types under task_id *events.tsv file 
+# (assumes first two columns: 'onset' and 'duration'), 
+# trims the onset times by 10 secs, and writes .txt files 
+# for AFNI first-level analysis to a BIDS derivatives folder called 
+# f'{bids_dir}/derivatives/timing/sub-XX/trial_type_column_name/*.txt'
+events.get_timing(trimTRby=10, software='AFNI', write=True) 
 
 ```
 ## lsan_tools.math
