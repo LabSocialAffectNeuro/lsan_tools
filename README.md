@@ -1,5 +1,7 @@
 # LSAN_tools
 
+[![DOI](https://zenodo.org/badge/203644601.svg)](https://zenodo.org/badge/latestdoi/203644601)
+
 Python toolbox with general-purpose functions for behavioral and neuroimaging research
 
 ## Installation
