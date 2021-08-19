@@ -18,17 +18,19 @@ class events_class(object):
         self.task_id = task_id
 
         if sub_ids == None:
-            self.sub_ids = self.layout.get_subjects(task=task_id)
+            self.sub_ids = self.layout.get_subjects(task=self.task_id)
         else:
-            assert type(sub_ids) == list, "sub_ids should be type(list)"
+            assert type(sub_ids) == list, "sub_ids should be type(list) (e.g., ['101', '102', '103'])"
+            self.sub_ids = sub_ids
+
             for i in sub_ids:
                 assert type(i) == str, "elements in sub_ids should be type(str)"
-                assert any(i==j for j in self.layout.get_subjects(task=task_id)), f"cannot find sub_ids with {task} task data"
+                assert any(i==j for j in self.layout.get_subjects(task=self.task_id)), f"cannot find sub_ids with {self.task_id} task data"
 
         if verbose:
             print(f'{len(self.sub_ids)} subjects in {self.task_id} task')
 
-    def get_timing(self, trial_type_cols=[], trimTRby=10, software='AFNI', write=True):
+    def get_timing(self, trial_type_cols=[], trimTRby=0, software='AFNI', sort_df_by=None, write=True, output_dir=None):
         '''
         Throws timing information for each subject into dictionary
         '''
@@ -39,21 +41,25 @@ class events_class(object):
         self.events_dict[self.task_id] = {}
 
         for sub_identifier in self.sub_ids:
-
+            
             self.events_dict[self.task_id][sub_identifier] = {}
 
             run_ids = self.layout.get_runs(subject=sub_identifier, task=self.task_id)
-
+            
+            run_identifier = None
             for run_identifier in run_ids:
                 __eventFile__ = self.layout.get(suffix='events',
                                                  task=self.task_id,
                                                   run=run_identifier,
                                                   extension='tsv',
                                                   return_type='file')
-
+                
                 # get df of events information
                 __trialInfo__ = pd.read_table(__eventFile__[0])
-
+                
+                if sort_df_by is not None:
+                    __trialInfo__ = __trialInfo__.sort_values(by=[sort_df_by])
+                
                 if run_identifier == 1:
                     onsets = {}
                     durations = {}
@@ -109,7 +115,7 @@ class events_class(object):
 
                                 onsets[column][itrial][run_identifier] = (list(__trialInfo__[__trialInfo__[column]==itrial].onset-trimTRby)) # subtracting trimTRby due to remove dummy scans
                                 durations[column][itrial][run_identifier] = (list(__trialInfo__[__trialInfo__[column]==itrial].duration))
-
+            
             self.events_dict[self.task_id][sub_identifier]['onsets'] = onsets
             self.events_dict[self.task_id][sub_identifier]['durations'] = durations
 
@@ -121,7 +127,10 @@ class events_class(object):
                         if column == 'response_time': #cannot handle response_times yet
                             continue
 
-                        writeToPath = os.path.join(self.base_dir,'derivatives','timing',f'sub-{sub_identifier}',column)
+                        if output_dir is None:
+                            writeToPath = os.path.join(self.base_dir,'derivatives','timing',f'sub-{sub_identifier}',column)
+                        else:
+                            writeToPath = os.path.join(output_dir,f'sub-{sub_identifier}',column)
 
                         if not os.path.exists(writeToPath):
                             os.makedirs(writeToPath)
@@ -142,7 +151,10 @@ class events_class(object):
                         if column == 'response_time': #cannot handle response_times yet
                             continue
 
-                        writeToPath = os.path.join(self.base_dir,'derivatives','timing',f'sub-{sub_identifier}',column)
+                        if output_dir is None:
+                            writeToPath = os.path.join(self.base_dir,'derivatives','timing',f'sub-{sub_identifier}',column)
+                        else:
+                            writeToPath = os.path.join(output_dir,f'sub-{sub_identifier}',column)
 
                         if not os.path.exists(writeToPath):
                             os.makedirs(writeToPath)
@@ -154,7 +166,7 @@ class events_class(object):
 
                                 for (run_onsets, run_durs) in zip(onset_val.values(), dur_val.values()):
 
-                                    filehandle.writelines("%f:%f\t" % (onset_time, dur_time) for (onset_time, dur_time) in zip(run_onsets, run_durs))
+                                    filehandle.writelines(f"{onset_time:.1f}\t" for (onset_time, dur_time) in zip(run_onsets, run_durs))
                                     filehandle.write("\n")
 
     # def bunch_timing(self, trial_type):
